@@ -1,32 +1,42 @@
 import Header from './Header.jsx';
 import Main from './Main.jsx';
 import Footer from './Footer.jsx';
-/* import { api } from '../utils/api.js';
-import PopupWithForm from './PopupWithForm.jsx'; */
+/* import { api } from '../utils/api.js'; */
+import PopupWithForm from './PopupWithForm.jsx';
 
 
 function App() {
-/*   let card = [];
 
-  api.search('cards').then((res) => {
-    console.log(res);
+  function handleEditAvatarClick(){
+    const popupWithAvatarChange = document.querySelector('.popup_type_update-avatar');
+    popupWithAvatarChange.classList.add('popup_opened')
+  }
 
-    cards = res.results.map((item) ={
-      id: item.id,
-      src: item.urls.regular,
-      alt: item.alt_description,
-      title: item.description,
-      subtitle: item.user.name
-    })
-  }); */
+  function handleEditProfileClick(){
+    const popupWithAvatarChange = document.querySelector('.popup_type_profile');
+    popupWithAvatarChange.classList.add('popup_opened')
+  }
+
+  function handleAddPlaceClick(){
+    const popupWithAvatarChange = document.querySelector('.popup_type_cards');
+    popupWithAvatarChange.classList.add('popup_opened')
+  }
 
   return (
     <div className="App">
       <body className="page">
         <Header />
-        <Main />
+        <Main
+         onEditAvatar = {handleEditAvatarClick}
+         onEditProfile = {handleEditProfileClick}
+         onAddPlace = {handleAddPlaceClick}
+        />
         <Footer />
-        <div className="popup popup_type_profile">
+        <PopupWithForm 
+/*           title: 'Редактировать профиль',
+          name: 'profile' */
+        />
+{/*         <div className="popup popup_type_profile">
           <div className="popup__container">
             <button className="popup__close-button popup__close-button_type_profile" type="button"></button>
             <form className="form form_type_profile" name="editProfile" novalidate>
@@ -38,7 +48,7 @@ function App() {
               <button type="submit" className="form__submit form__submit_type_profile">Сохранить</button>
             </form>
           </div>
-        </div>
+        </div> */}
         <div className="popup popup_type_cards">
           <div className="popup__cards-container">
             <button className="popup__close-button popup__close-button_type_card" type="button"></button>
