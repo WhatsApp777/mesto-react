@@ -3,6 +3,7 @@ import Main from './Main.jsx';
 import Footer from './Footer.jsx';
 /* import { api } from '../utils/api.js'; */
 import PopupWithForm from './PopupWithForm.jsx';
+import ImagePopup from './ImagePopup.jsx';
 
 
 function App() {
@@ -36,32 +37,44 @@ function App() {
           title = {'Редактировать профиль'}
           name = {'profile'}
           buttonText = {'Сохранить'}
+          children = {
+            <>
+              <input type="text" placeholder="Ваше имя" className="form__input form__input_type_name" name="profileName" id="profileName" minlength="2" maxlength="40" required autocomplete="off" />
+              <span id="error-profileName" className="form__error"></span>
+              <input type="text" placeholder="Ваша профессия" className="form__input form__input_type_job" name="profileJob" id="profileJob" minlength="2" maxlength="200" required autocomplete="off" />
+              <span id="error-profileJob" className="form__error"></span>
+            </>
+          }
         />
         <PopupWithForm
           title = {'Новое место'}
           name = {'cards'}
           buttonText = {'Создать'}
+          children = {
+            <>
+              <input type="text" placeholder="Название" className="form__input form__input_type_title" name="profileTitle" id="profileTitle" minlength="2" maxlength="30" required autocomplete="off" />
+              <span id="error-profileTitle" className="form__error"></span>
+              <input type="URL" placeholder="Ссылка на картинку" className="form__input form__input_type_link" name="profileLink" id="profileLink" minlength="2" required />
+              <span id="error-profileLink" className="form__error"></span>
+            </>
+          }
         />
         <PopupWithForm
           title = {'Обновить аватар'}
           name = {'update-avatar'}
           buttonText = {'Создать'}
+          children = {
+            <>
+              <input type="URL" placeholder="Ссылка на картинку" className="form__input form__input_type_update-avatar" name="AvatarLink" id="AvatarLink" minlength="2" required />
+              <span id="error-AvatarLink" className="form__error"></span>
+            </>
+          }
         />
         <PopupWithForm
           title = {'Вы уверены?'}
           name = {'delete-card'}
           buttonText = {'Да'}
         />
-
-
-        <div className="popup popup_type_image">
-          <div className="popup__image-container">
-            <button className="popup__close-button popup__close-button_type_image" type="button"></button>
-            <img className="popup__image-card" />
-            <h2 className="popup__image-title">Домбай</h2>
-          </div>
-        </div>
-
         <template id="template__elements">
           <div className="place">
             <div className="place__images">
@@ -130,6 +143,13 @@ export default App;
               <h2 className="form__title form__title_type_delete">Вы уверены?</h2>
               <button type="submit" className="form__submit form__submit_type_delete-card">Да</button>
             </form>
+          </div>
+        </div>
+                <div className="popup popup_type_image">
+          <div className="popup__image-container">
+            <button className="popup__close-button popup__close-button_type_image" type="button"></button>
+            <img className="popup__image-card" />
+            <h2 className="popup__image-title">Домбай</h2>
           </div>
         </div>
         */
