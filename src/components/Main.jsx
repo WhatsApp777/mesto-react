@@ -3,6 +3,21 @@ import avatar from '../images/avatar1.jpg';
 
 function Main(){
 
+  function handleEditAvatarClick(){
+    const popupWithAvatarChange = document.querySelector('.popup_type_update-avatar');
+    popupWithAvatarChange.classList.add('popup_opened')
+  }
+
+  function handleEditProfileClick(){
+    const popupWithAvatarChange = document.querySelector('.popup_type_profile');
+    popupWithAvatarChange.classList.add('popup_opened')
+  }
+
+  function handleAddPlaceClick(){
+    const popupWithAvatarChange = document.querySelector('.popup_type_cards');
+    popupWithAvatarChange.classList.add('popup_opened')
+  }
+
     return(
         <main className="content">
         <section className="profile">

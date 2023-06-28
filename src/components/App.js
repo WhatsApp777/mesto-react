@@ -1,14 +1,14 @@
 import Header from './Header.jsx';
 import Main from './Main.jsx';
 import Footer from './Footer.jsx';
-import { api } from '../utils/api.js';
-import PopupWithForm from './PopupWithForm.jsx';
+/* import { api } from '../utils/api.js';
+import PopupWithForm from './PopupWithForm.jsx'; */
 
 
 function App() {
-  let card = [];
+/*   let card = [];
 
-  api.search('parrot').then((res) => {
+  api.search('cards').then((res) => {
     console.log(res);
 
     cards = res.results.map((item) ={
@@ -18,9 +18,7 @@ function App() {
       title: item.description,
       subtitle: item.user.name
     })
-  });
-
-  console.log(cards)
+  }); */
 
   return (
     <div className="App">
