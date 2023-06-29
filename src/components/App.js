@@ -7,21 +7,11 @@ import ImagePopup from './ImagePopup.jsx';
 
 
 function App() {
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(true);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(true);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(true);
 
-  function handleEditAvatarClick(){
-    const popupWithAvatarChange = document.querySelector('.popup_type_update-avatar');
-    popupWithAvatarChange.classList.add('popup_opened')
-  }
 
-  function handleEditProfileClick(){
-    const popupWithAvatarChange = document.querySelector('.popup_type_profile');
-    popupWithAvatarChange.classList.add('popup_opened')
-  }
-
-  function handleAddPlaceClick(){
-    const popupWithAvatarChange = document.querySelector('.popup_type_cards');
-    popupWithAvatarChange.classList.add('popup_opened')
-  }
 
   return (
     <div className="App">
@@ -152,4 +142,19 @@ export default App;
             <h2 className="popup__image-title">Домбай</h2>
           </div>
         </div>
-        */
+
+        /*   function handleEditAvatarClick(){
+    const popupWithAvatarChange = document.querySelector('.popup_type_update-avatar');
+    popupWithAvatarChange.classList.add('popup_opened')
+  }
+
+  function handleEditProfileClick(){
+    const popupWithAvatarChange = document.querySelector('.popup_type_profile');
+    popupWithAvatarChange.classList.add('popup_opened')
+  }
+
+  function handleAddPlaceClick(){
+    const popupWithAvatarChange = document.querySelector('.popup_type_cards');
+    popupWithAvatarChange.classList.add('popup_opened')
+  } */
+      
