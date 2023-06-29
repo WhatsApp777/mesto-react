@@ -2,7 +2,7 @@ import React from "react";
 
 function PopupWithForm(props){
     return(
-        <div className={`popup popup_type_${props.name}`}>
+        <div className={props.isOpen ? `popup popup_type_${props.name} popup_opened` : `popup popup_type_${props.name}`}>
         <div className="popup__container">
           <button className={`popup__close-button popup__close-button_type_${props.namme}`} onClick={props.onClose} type="button"></button>
           <form className={`form form_type_${props.name}`} name="editProfile" novalidate>

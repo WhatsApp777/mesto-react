@@ -1,3 +1,4 @@
+import React from 'react';
 import Header from './Header.jsx';
 import Main from './Main.jsx';
 import Footer from './Footer.jsx';
@@ -7,23 +8,43 @@ import ImagePopup from './ImagePopup.jsx';
 
 
 function App() {
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(true);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(true);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(true);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState();
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState();
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState();
 
+  function handleEditAvatarClick(){
+    setIsEditAvatarPopupOpen(true)
+  }
 
+  function handleEditProfileClick(){
+    setIsEditProfilePopupOpen(true)
+  }
+
+  function handleAddPlaceClick(){
+    setIsAddPlacePopupOpen(true)
+  }
+
+  function closeAllPopups(){
+    setIsEditAvatarPopupOpen(false)
+    setIsEditProfilePopupOpen(false)
+    setIsAddPlacePopupOpen(false)
+  }
 
   return (
     <div className="App">
       <body className="page">
         <Header />
+
         <Main
          onEditAvatar = {handleEditAvatarClick}
          onEditProfile = {handleEditProfileClick}
          onAddPlace = {handleAddPlaceClick}
         />
+
         <Footer />
+
         <PopupWithForm 
+          isOpen = {isEditProfilePopupOpen}
           title = {'Редактировать профиль'}
           name = {'profile'}
           buttonText = {'Сохранить'}
@@ -35,8 +56,11 @@ function App() {
               <span id="error-profileJob" className="form__error"></span>
             </>
           }
+          onClose = {closeAllPopups}
         />
+
         <PopupWithForm
+          isOpen = {isAddPlacePopupOpen}
           title = {'Новое место'}
           name = {'cards'}
           buttonText = {'Создать'}
@@ -48,8 +72,11 @@ function App() {
               <span id="error-profileLink" className="form__error"></span>
             </>
           }
+          onClose = {closeAllPopups}
         />
+
         <PopupWithForm
+          isOpen = {isEditAvatarPopupOpen}
           title = {'Обновить аватар'}
           name = {'update-avatar'}
           buttonText = {'Создать'}
@@ -59,12 +86,16 @@ function App() {
               <span id="error-AvatarLink" className="form__error"></span>
             </>
           }
+          onClose = {closeAllPopups}
         />
+
         <PopupWithForm
           title = {'Вы уверены?'}
           name = {'delete-card'}
           buttonText = {'Да'}
+          onClose = {closeAllPopups}
         />
+
         <template id="template__elements">
           <div className="place">
             <div className="place__images">
