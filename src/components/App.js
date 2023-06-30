@@ -3,6 +3,7 @@ import Header from './Header.jsx';
 import Main from './Main.jsx';
 import Footer from './Footer.jsx';
 import PopupWithForm from './PopupWithForm.jsx';
+import Card from './Card.jsx';
 import { api } from '../utils/api.js';
 import { config } from '../utils/api.js';
 import {
@@ -20,9 +21,9 @@ import ImagePopup from './ImagePopup.jsx';
 
 function App() {
 
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState();
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState();
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState();
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
 
   function handleEditAvatarClick(){
     setIsEditAvatarPopupOpen(true)
@@ -42,22 +43,6 @@ function App() {
     setIsAddPlacePopupOpen(false)
   }
 
-  const [cards, setCards] = React.useState([]);
-
-  React.useEffect(() => {
-    api.getInitialCards()
-    .then((res) => {
-        const cardsFromApi = res.results.map((item) => ({
-            id: item.id,
-            src: item.urls.regular,
-            alt: item.alt_description,
-            title: item.description,
-            subtitle: item.user.name,
-        }));
-  
-        setCards(cardsFromApi);
-    });
-  }, []);
 
 
 
@@ -126,13 +111,13 @@ function App() {
           onClose={closeAllPopups}
         />
 
-        <>
+{/*         <>
         {cards.map(({}) => {
           <Card>
             key={}
           </Card> 
         })}
-        </>
+        </> */}
     </div>
   );
 }
@@ -210,5 +195,23 @@ export default App;
     popupWithAvatarChange.classList.add('popup_opened')
 
     
-  } */
+  } 
+    const [cards, setCards] = React.useState([]);
+
+  React.useEffect(() => {
+    api.getInitialCards()
+    .then((res) => {
+        const cardsFromApi = res.results.map((item) => ({
+            id: item.id,
+            src: item.urls.regular,
+            alt: item.alt_description,
+            title: item.description,
+            subtitle: item.user.name,
+        }));
+  
+        setCards(cardsFromApi);
+    });
+  }, []);
+  
+  */
       
