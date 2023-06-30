@@ -1,6 +1,6 @@
 import React from 'react';
-import Card from './Card';
-import { api } from '../utils/api';
+import Card from './Card.jsx';
+import { api } from '../utils/api.js';
 
 function Main(props){
     const { onEditAvatar, onEditProfile, onAddPlace} = props;
@@ -11,7 +11,7 @@ function Main(props){
     const [cards, setCards] = React.useState([]);
   
     React.useEffect(() => {
-      api.getAppInfo() 
+      api.getUserInfo() 
       .then((json) => {
         setUserName(json[0].name)
         setUserDescription(json[0].about)
@@ -25,7 +25,7 @@ function Main(props){
     React.useEffect(() => {
       api.getInitialCards()
       .then((card) => {
-        setCards([...card]);
+        setCards([...card[1]]);
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}`)
@@ -66,4 +66,3 @@ function Main(props){
 }
 
 export default Main;
-    

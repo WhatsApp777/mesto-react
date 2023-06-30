@@ -3,7 +3,7 @@ import Header from './Header.jsx';
 import Main from './Main.jsx';
 import Footer from './Footer.jsx';
 import PopupWithForm from './PopupWithForm.jsx';
-//import Card from './Card.jsx';
+/* import Card from './Card.jsx';
 import { api } from '../utils/api.js';
 import { config } from '../utils/api.js';
 import {
@@ -17,7 +17,7 @@ import {
   buttonEditAvatar
 } from '../utils/api.js';
 
-import ImagePopup from './ImagePopup.jsx';
+import ImagePopup from './ImagePopup.jsx'; */
 
 function App() {
 

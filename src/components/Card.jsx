@@ -2,12 +2,12 @@ import React from 'react';
 import Main from './Main.jsx';
 
 function Card(props){
-  const { _id, link, name, likes } = props;
+  const { link, name, likes } = props;
 
   return (
-  <div className="place" key={_id}>
+  <div className="place">
     <div className="place__images">
-      <img className="place__img" src={link} alt={name}/>
+      <img className="place__img" src={link} alt={name} />
       <img src="./images/trash.svg" className="place__trash" alt="удалить" />
     </div>
     <div className="place__content">
