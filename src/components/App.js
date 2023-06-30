@@ -3,7 +3,7 @@ import Header from './Header.jsx';
 import Main from './Main.jsx';
 import Footer from './Footer.jsx';
 import PopupWithForm from './PopupWithForm.jsx';
-import Card from './Card.jsx';
+//import Card from './Card.jsx';
 import { api } from '../utils/api.js';
 import { config } from '../utils/api.js';
 import {
@@ -42,9 +42,6 @@ function App() {
     setIsEditProfilePopupOpen(false)
     setIsAddPlacePopupOpen(false)
   }
-
-
-
 
   return (
     <div className="page">
@@ -110,14 +107,6 @@ function App() {
           buttonText="Да"
           onClose={closeAllPopups}
         />
-
-{/*         <>
-        {cards.map(({}) => {
-          <Card>
-            key={}
-          </Card> 
-        })}
-        </> */}
     </div>
   );
 }

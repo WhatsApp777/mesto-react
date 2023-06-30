@@ -1,4 +1,5 @@
 import React from 'react';
+import Card from './Card';
 import { api } from '../utils/api';
 
 function Main(props){
@@ -7,6 +8,7 @@ function Main(props){
     const [userName, setUserName] = React.useState();
     const [userDescription, setUserDescription ] = React.useState();
     const [userAvatar, setUserAvatar] = React.useState();
+    const [cards, setCards] = React.useState([]);
   
     React.useEffect(() => {
       api.getAppInfo() 
@@ -20,8 +22,15 @@ function Main(props){
       })
     }, [])
 
-
-
+    React.useEffect(() => {
+      api.getInitialCards()
+      .then((card) => {
+        setCards([...card]);
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`)
+      })
+    }, [])
 
     return(
         <main className="content">
@@ -41,44 +50,20 @@ function Main(props){
             <button type="button" className="profile__add-button" onClick={onAddPlace}></button>
         </section>
         <section className="places">
+          <div className="place">
+            {
+              cards.map((card) => {
+                <Card 
+                  key={card._id}
+                  {...card}
+                />
+              })
+            }
+          </div>
         </section>
       </main>
     )
 }
 
 export default Main;
-
-/*         <section className="places">
-        <div className="place">
-          <div className="place__images">
-            <img className="place__img" />
-            <img src="./images/trash.svg" className="place__trash" alt="удалить" />
-          </div>
-          <div className="place__content">
-            <h2 className="place__title">{title}</h2>
-            <div className="place__like">
-              <button type="button" className="place__like_type_button" onClick={onLikeClick}></button>
-              <div className="place__like_type_number">{likes}</div>
-            </div>
-          </div>
-        </div>
-        </section> 
-        
-        /*     React.useEffect(() => {
-      api.getInitialCards()
-        .then((json) => {
-          setCard(json)
-        })
-        .catch((err) => {
-          console.log(`Ошибка: ${err}`)
-        })
-      }, [])
-      
-      
-                {cards.map((card, id) => {
-            <Card>
-              key={}
-            </Card> 
-          })}
-      */
     
