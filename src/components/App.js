@@ -2,12 +2,24 @@ import React from 'react';
 import Header from './Header.jsx';
 import Main from './Main.jsx';
 import Footer from './Footer.jsx';
-/* import { api } from '../utils/api.js'; */
 import PopupWithForm from './PopupWithForm.jsx';
+import { api } from '../utils/api.js';
+import { config } from '../utils/api.js';
+import {
+  buttonAddCard,
+  buttonEditProfile,
+  formProfile,
+  formCards,
+  formAvatarChange,
+  nameInput,
+  jobInput,
+  buttonEditAvatar
+} from '../utils/api.js';
+
 import ImagePopup from './ImagePopup.jsx';
 
-
 function App() {
+
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState();
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState();
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState();
@@ -30,88 +42,97 @@ function App() {
     setIsAddPlacePopupOpen(false)
   }
 
+  const [cards, setCards] = React.useState([]);
+
+  React.useEffect(() => {
+    api.getInitialCards()
+    .then((res) => {
+        const cardsFromApi = res.results.map((item) => ({
+            id: item.id,
+            src: item.urls.regular,
+            alt: item.alt_description,
+            title: item.description,
+            subtitle: item.user.name,
+        }));
+  
+        setCards(cardsFromApi);
+    });
+  }, []);
+
+
+
   return (
-    <div className="App">
-      <body className="page">
+    <div className="page">
         <Header />
 
         <Main
-         onEditAvatar = {handleEditAvatarClick}
-         onEditProfile = {handleEditProfileClick}
-         onAddPlace = {handleAddPlaceClick}
+         onEditAvatar={handleEditAvatarClick}
+         onEditProfile={handleEditProfileClick}
+         onAddPlace={handleAddPlaceClick}
         />
 
         <Footer />
 
         <PopupWithForm 
-          isOpen = {isEditProfilePopupOpen}
-          title = {'Редактировать профиль'}
-          name = {'profile'}
-          buttonText = {'Сохранить'}
-          children = {
+          isOpen={isEditProfilePopupOpen}
+          title="Редактировать профиль"
+          name="profile"
+          buttonText="Сохранить"
+          children={
             <>
-              <input type="text" placeholder="Ваше имя" className="form__input form__input_type_name" name="profileName" id="profileName" minlength="2" maxlength="40" required autocomplete="off" />
+              <input type="text" placeholder="Ваше имя" className="form__input form__input_type_name" name="profileName" id="profileName" minLength="2" maxLength="40" required autoComplete="off" />
               <span id="error-profileName" className="form__error"></span>
-              <input type="text" placeholder="Ваша профессия" className="form__input form__input_type_job" name="profileJob" id="profileJob" minlength="2" maxlength="200" required autocomplete="off" />
+              <input type="text" placeholder="Ваша профессия" className="form__input form__input_type_job" name="profileJob" id="profileJob" minLength="2" maxLength="200" required autoComplete="off" />
               <span id="error-profileJob" className="form__error"></span>
             </>
           }
-          onClose = {closeAllPopups}
+          onClose={closeAllPopups}
         />
 
         <PopupWithForm
-          isOpen = {isAddPlacePopupOpen}
-          title = {'Новое место'}
-          name = {'cards'}
-          buttonText = {'Создать'}
-          children = {
+          isOpen={isAddPlacePopupOpen}
+          title="Новое место"
+          name="cards"
+          buttonText="Создать"
+          children={
             <>
-              <input type="text" placeholder="Название" className="form__input form__input_type_title" name="profileTitle" id="profileTitle" minlength="2" maxlength="30" required autocomplete="off" />
+              <input type="text" placeholder="Название" className="form__input form__input_type_title" name="profileTitle" id="profileTitle" minLength="2" maxLength="30" required autoComplete="off" />
               <span id="error-profileTitle" className="form__error"></span>
-              <input type="URL" placeholder="Ссылка на картинку" className="form__input form__input_type_link" name="profileLink" id="profileLink" minlength="2" required />
+              <input type="URL" placeholder="Ссылка на картинку" className="form__input form__input_type_link" name="profileLink" id="profileLink" minLength="2" required />
               <span id="error-profileLink" className="form__error"></span>
             </>
           }
-          onClose = {closeAllPopups}
+          onClose={closeAllPopups}
         />
 
         <PopupWithForm
-          isOpen = {isEditAvatarPopupOpen}
-          title = {'Обновить аватар'}
-          name = {'update-avatar'}
-          buttonText = {'Создать'}
-          children = {
+          isOpen={isEditAvatarPopupOpen}
+          title="Обновить аватар"
+          name="update-avatar"
+          buttonText="Создать"
+          children={
             <>
-              <input type="URL" placeholder="Ссылка на картинку" className="form__input form__input_type_update-avatar" name="AvatarLink" id="AvatarLink" minlength="2" required />
+              <input type="URL" placeholder="Ссылка на картинку" className="form__input form__input_type_update-avatar" name="AvatarLink" id="AvatarLink" minLength="2" required />
               <span id="error-AvatarLink" className="form__error"></span>
             </>
           }
-          onClose = {closeAllPopups}
+          onClose={closeAllPopups}
         />
 
         <PopupWithForm
-          title = {'Вы уверены?'}
-          name = {'delete-card'}
-          buttonText = {'Да'}
-          onClose = {closeAllPopups}
+          title="Вы уверены?"
+          name="delete-card"
+          buttonText="Да"
+          onClose={closeAllPopups}
         />
 
-        <template id="template__elements">
-          <div className="place">
-            <div className="place__images">
-              <img className="place__img" />
-              <img src="<%=require('./images/trash.svg')%>" className="place__trash" alt="удалить" />
-            </div>
-            <div className="place__content">
-              <h2 className="place__title"></h2>
-              <div className="place__like">
-                <button type="button" class="place__like_type_button"></button>
-                <div className="place__like_type_number">1</div>
-              </div>
-            </div>
-          </div>
-        </template>
-      </body>
+        <>
+        {cards.map(({}) => {
+          <Card>
+            key={}
+          </Card> 
+        })}
+        </>
     </div>
   );
 }
@@ -187,5 +208,7 @@ export default App;
   function handleAddPlaceClick(){
     const popupWithAvatarChange = document.querySelector('.popup_type_cards');
     popupWithAvatarChange.classList.add('popup_opened')
+
+    
   } */
       
