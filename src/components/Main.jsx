@@ -12,24 +12,17 @@ function Main(props){
 
     
   React.useEffect(() => {
-    api.getUserInfo()
-    .then((json) => {
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+    .then(([json, card]) => {
       setUserName(json.name)
       setUserDescription(json.about)
       setUserAvatar(json.avatar)
+      setCards(card)
     })
     .catch((err) => {
       console.log(`Ошибка: ${err}`)
     })
     }, [])
- 
-  React.useEffect(() => {
-    api.getInitialCards()
-    .then((json) => setCards(json))
-    .catch((err) => {
-      console.log(`Ошибка: ${err}`)
-    })
-  }, [])
 
     return(
         <main className="content">

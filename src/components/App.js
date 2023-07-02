@@ -4,19 +4,6 @@ import Main from './Main.jsx';
 import Footer from './Footer.jsx';
 import PopupWithForm from './PopupWithForm.jsx';
 import ImagePopup from './ImagePopup.jsx';
-/* import Card from './Card.jsx';
-import { api } from '../utils/api.js';
-import { config } from '../utils/api.js';
-import {
-  buttonAddCard,
-  buttonEditProfile,
-  formProfile,
-  formCards,
-  formAvatarChange,
-  nameInput,
-  jobInput,
-  buttonEditAvatar
-} from '../utils/api.js'; */
 
 function App() {
 
