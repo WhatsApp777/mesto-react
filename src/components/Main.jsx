@@ -5,9 +5,9 @@ import Card from "./Card.jsx";
 function Main(props) {
   const { onEditAvatar, onEditProfile, onAddPlace } = props;
 
-  const [userName, setUserName] = React.useState();
-  const [userDescription, setUserDescription] = React.useState();
-  const [userAvatar, setUserAvatar] = React.useState();
+  const [userName, setUserName] = React.useState("");
+  const [userDescription, setUserDescription] = React.useState("");
+  const [userAvatar, setUserAvatar] = React.useState("");
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
@@ -18,9 +18,7 @@ function Main(props) {
         setUserAvatar(json.avatar);
         setCards(card);
       })
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      });
+      .catch(console.error);
   }, []);
 
   return (
@@ -41,7 +39,7 @@ function Main(props) {
                 type="button"
                 className="profile__edit-button"
                 onClick={onEditProfile}
-              ></button>
+              />
             </div>
             <p className="profile__subtitle">{userDescription}</p>
           </div>
@@ -50,7 +48,7 @@ function Main(props) {
           type="button"
           className="profile__add-button"
           onClick={onAddPlace}
-        ></button>
+        />
       </section>
       <section className="places">
         {cards.map((card) => (

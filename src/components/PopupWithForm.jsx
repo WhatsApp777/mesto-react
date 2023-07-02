@@ -12,12 +12,8 @@ function PopupWithForm(props) {
           className={`popup__close-button popup__close-button_type_${name}`}
           onClick={onClose}
           type="button"
-        ></button>
-        <form
-          className={`form form_type_${name}`}
-          name="editProfile"
-          noValidate
-        >
+        />
+        <form className={`form form_type_${name}`} name={name}>
           <h2 className={`form__title form__title_type_${name}`}>{title}</h2>
           {children}
           <button
