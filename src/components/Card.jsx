@@ -1,4 +1,5 @@
 import React from 'react';
+import trash from '../images/trash.svg';
 
 function Card(props){
 
@@ -10,7 +11,7 @@ function Card(props){
     <div className="place">
       <div className="place__images">
         <img className="place__img" src={props.card.link} alt={props.card.name} onClick={handleClick}/>
-        <img src="./images/trash.svg" className="place__trash" alt="удалить" />
+        <img src={trash} className="place__trash" alt="удалить" />
       </div>
       <div className="place__content">
         <h2 className="place__title">{props.card.name}</h2>
