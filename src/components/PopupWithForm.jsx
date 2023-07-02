@@ -2,9 +2,8 @@ import React from "react";
 
 function PopupWithForm(props){
   const { name, title, isOpen, onClose, buttonText, children } = props;
-  
   const popupOpenProps = `popup popup_type_${name} popup_opened`;
-  const popupCloseProps = `popup popup_type_${name}`
+  const popupCloseProps = `popup popup_type_${name}`;
 
     return(
         <div className={isOpen ? popupOpenProps : popupCloseProps}>

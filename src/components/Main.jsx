@@ -2,7 +2,7 @@ import React from 'react';
 import { api } from '../utils/api.js';
 import Card from './Card.jsx';
 
-export default function Main(props){
+function Main(props){
     const { onEditAvatar, onEditProfile, onAddPlace} = props;
 
     const [userName, setUserName] = React.useState();
@@ -12,40 +12,31 @@ export default function Main(props){
 
     
   React.useEffect(() => {
-    fetch(`https://mesto.nomoreparties.co/v1/cohort-68/users/me`, {
-      method: 'GET',
-      headers: {
-        authorization: 'dc5ffe71-d4a2-4ae4-8d8f-113b04708a8c',
-        'Content-Type': 'application/json'
-      }
-    })
-    .then((response) => response.json())
+    api.getUserInfo()
     .then((json) => {
       setUserName(json.name)
       setUserDescription(json.about)
       setUserAvatar(json.avatar)
     })
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`)
+    })
     }, [])
  
   React.useEffect(() => {
-    fetch(`https://mesto.nomoreparties.co/v1/cohort-68/cards`, {
-      method: 'GET',
-      headers: {
-        authorization: 'dc5ffe71-d4a2-4ae4-8d8f-113b04708a8c',
-        'Content-Type': 'application/json'
-      }
-    })
-    .then((response) => response.json())
+    api.getInitialCards()
     .then((json) => setCards(json))
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`)
+    })
   }, [])
-
 
     return(
         <main className="content">
         <section className="profile">
           <div className="profile__profile-info">
             <button type="button" className="profile__avatar-button" onClick={onEditAvatar}>
-              <img src={userAvatar} style={{ backgroundImage: `url(${userAvatar})` }} className="profile__avatar" alt="фото" />
+              <img src={userAvatar} className="profile__avatar" alt="фото" />
             </button>
             <div className="profile__table">
               <div className="profile__info">
@@ -58,50 +49,12 @@ export default function Main(props){
             <button type="button" className="profile__add-button" onClick={onAddPlace}></button>
         </section>
         <section className="places">
-            {cards.map((card) => {
-                <Card key={card._id} card={card} />
-            })}
+            {cards.map((card) => (
+               <Card key={card._id} card={card} onCardClick={props.onCardClick}/>
+            ))}
         </section>
       </main>
     )
 }
 
-
-
-
-
-/* React.useEffect(() => {
-  api.getUserInfo() 
-  .then((json) => {
-    setUserName(json[0].name)
-    setUserDescription(json[0].about)
-    setUserAvatar(json[0].avatar)
-  })
-  .catch((err) => {
-    console.log(`Ошибка: ${err}`)
-  })
-}, [])
-
-React.useEffect(() => {
-  api.getInitialCards()
-  .then((card) => {
-    setCards([...card[1]]);
-  })
-  .catch((err) => {
-    console.log(`Ошибка: ${err}`)
-  })
-}, [])
-
-    React.useEffect(() => {
-      Promise.all([api.getUserInfo(), api.getInitialCards()])
-      .then((res, card) => {
-        setUserName(res[0].name)
-        setUserDescription(res[0].about)
-        setUserAvatar(res[0].avatar)
-        setCards([...card[1]])
-      })
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`)
-      })
-    }, [])
-*/
+export default Main;
