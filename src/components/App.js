@@ -5,6 +5,7 @@ import Footer from "./Footer.jsx";
 import PopupWithForm from "./PopupWithForm.jsx";
 import ImagePopup from "./ImagePopup.jsx";
 import CurrentUserContext from "../contexts/CurrentUserContext.js";
+import EditProfilePopup from "./EditProfilePopup.jsx";
 import { api } from "../utils/api.js";
 
 function App() {
@@ -16,36 +17,17 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState({});
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
   const [cards, setCards] = React.useState([]);
-  const [currentUser, setCurrentUser] = React.useState();
+  const [currentUser, setCurrentUser] = React.useState([]);
 
   React.useEffect(() => {
-    api
-      .getUserInfo()
-      .then((res) => {
-        setCurrentUser(res);
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+
+      .then(([user, card]) => {
+        setCurrentUser(user);
+        setCards(card);
       })
       .catch(console.error);
   }, []);
-
-  React.useEffect(() => {
-    api.getInitialCards().then((res) => {
-      setCards(
-        res.map((item) => {
-          return {
-            _id: item._id,
-            name: item.name,
-            link: item.link,
-            owner: item.owner,
-            likes: item.likes,
-          };
-        })
-      );
-    });
-  }, []);
-
-  /*   console.log(cards);
-    console.log(currentUser);
-  console.log("app render"); */
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
@@ -89,6 +71,16 @@ function App() {
     setIsImagePopupOpen(false);
   }
 
+  function handleUpdateUser({ name, about }) {
+    api
+      .editProfile({ name, about })
+      .then((res) => {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch(console.error);
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -103,40 +95,10 @@ function App() {
           onCardDelete={handleCardDelete}
         />
         <Footer />
-        <PopupWithForm
+        <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
-          title="Редактировать профиль"
-          name="profile"
-          buttonText="Сохранить"
-          children={
-            <>
-              <input
-                type="text"
-                placeholder="Ваше имя"
-                className="form__input form__input_type_name"
-                name="profileName"
-                id="profileName"
-                minLength="2"
-                maxLength="40"
-                required
-                autoComplete="off"
-              />
-              <span id="error-profileName" className="form__error"></span>
-              <input
-                type="text"
-                placeholder="Ваша профессия"
-                className="form__input form__input_type_job"
-                name="profileJob"
-                id="profileJob"
-                minLength="2"
-                maxLength="200"
-                required
-                autoComplete="off"
-              />
-              <span id="error-profileJob" className="form__error"></span>
-            </>
-          }
           onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
         />
         <PopupWithForm
           isOpen={isAddPlacePopupOpen}

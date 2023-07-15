@@ -22,13 +22,13 @@ class Api {
     return Promise.all([this.getUserInfo(), this.getInitialCards()]);
   }
 
-  editProfile({ name, about }) {
+  editProfile({ name, description }) {
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
         name: name,
-        about: about,
+        about: description,
       }),
     }).then(this._handleResponse);
   }
