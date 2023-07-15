@@ -3,7 +3,15 @@ import Card from "./Card.jsx";
 import CurrentUserContext from "../contexts/CurrentUserContext.js";
 
 function Main(props) {
-  const { onEditAvatar, onEditProfile, onAddPlace } = props;
+  const {
+    onEditAvatar,
+    onEditProfile,
+    onAddPlace,
+    cards,
+    onCardClick,
+    onCardLike,
+    onCardDelete,
+  } = props;
 
   const currentUser = React.useContext(CurrentUserContext);
 
@@ -17,21 +25,21 @@ function Main(props) {
             onClick={onEditAvatar}
           >
             <img
-              src={currentUser.avatar}
+              src={currentUser?.avatar}
               className="profile__avatar"
               alt="фото"
             />
           </button>
           <div className="profile__table">
             <div className="profile__info">
-              <h1 className="profile__title">{currentUser.name}</h1>
+              <h1 className="profile__title">{currentUser?.name}</h1>
               <button
                 type="button"
                 className="profile__edit-button"
                 onClick={onEditProfile}
               />
             </div>
-            <p className="profile__subtitle">{currentUser.about}</p>
+            <p className="profile__subtitle">{currentUser?.about}</p>
           </div>
         </div>
         <button
@@ -42,7 +50,13 @@ function Main(props) {
       </section>
       <section className="places">
         {cards.map((card) => (
-          <Card key={card._id} card={card} onCardClick={props.onCardClick} />
+          <Card
+            key={card._id}
+            card={card}
+            onCardClick={onCardClick}
+            onCardLike={onCardLike}
+            onCardDelete={onCardDelete}
+          />
         ))}
       </section>
     </main>

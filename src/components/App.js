@@ -15,18 +15,55 @@ function App() {
     React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({});
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
+  const [cards, setCards] = React.useState([]);
   const [currentUser, setCurrentUser] = React.useState();
 
   React.useEffect(() => {
     api
       .getUserInfo()
-      .then((json) => {
-        setCurrentUser(json.name);
-        setCurrentUser(json.about);
-        setCurrentUser(json.avatar);
+      .then((res) => {
+        setCurrentUser(res);
       })
       .catch(console.error);
   }, []);
+
+  React.useEffect(() => {
+    api.getInitialCards().then((res) => {
+      setCards(
+        res.map((item) => {
+          return {
+            _id: item._id,
+            name: item.name,
+            link: item.link,
+            owner: item.owner,
+            likes: item.likes,
+          };
+        })
+      );
+    });
+  }, []);
+
+  /*   console.log(cards);
+    console.log(currentUser);
+  console.log("app render"); */
+
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+
+    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
+    });
+  }
+
+  function handleCardDelete(card) {
+    api
+      .deleteCard(card._id)
+      .then(() => {
+        const updatedCards = cards.slice().filter((c) => c !== card);
+        setCards(updatedCards);
+      })
+      .catch(console.error);
+  }
 
   function handleCardClick(card) {
     setSelectedCard(card);
@@ -53,14 +90,17 @@ function App() {
   }
 
   return (
-    <div className="page">
-      <CurrentUserContext.Provider value={currentUser}>
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="page">
         <Header />
         <Main
+          cards={cards}
           onEditAvatar={handleEditAvatarClick}
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
           onCardClick={handleCardClick}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
         />
         <Footer />
         <PopupWithForm
@@ -163,8 +203,8 @@ function App() {
           card={selectedCard}
           onClose={closeAllPopups}
         />
-      </CurrentUserContext.Provider>
-    </div>
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 
