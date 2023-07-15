@@ -5,6 +5,10 @@ import CurrentUserContext from "../contexts/CurrentUserContext";
 function Card(props) {
   //const { _id, card, onCardClick, onCardLike, onCardDelete } = props;
 
+  function handleLikeClick() {
+    props.onCardLike(props.card);
+  }
+
   function handleDeleteClick() {
     props.onCardDelete(props.card);
   }
@@ -44,7 +48,7 @@ function Card(props) {
           <button
             type="button"
             className={cardLikeButtonClassName}
-            onClick={props.onCardLike}
+            onClick={handleLikeClick}
           ></button>
           <div className="place__like_type_number">
             {props.card.likes.length}
