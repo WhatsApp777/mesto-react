@@ -47,6 +47,16 @@ function App() {
       .catch(console.error);
   }
 
+  function handleUpdateUser(data) {
+    api
+      .editProfile(data)
+      .then((res) => {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch(console.error);
+  }
+
   function handleCardClick(card) {
     setSelectedCard(card);
     setIsImagePopupOpen(true);
@@ -69,16 +79,6 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsImagePopupOpen(false);
-  }
-
-  function handleUpdateUser({ name, about }) {
-    api
-      .editProfile({ name, about })
-      .then((res) => {
-        setCurrentUser(res);
-        closeAllPopups();
-      })
-      .catch(console.error);
   }
 
   return (

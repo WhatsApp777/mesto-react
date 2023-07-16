@@ -18,19 +18,19 @@ class Api {
     }).then(this._handleResponse);
   }
 
-  getAppInfo() {
-    return Promise.all([this.getUserInfo(), this.getInitialCards()]);
-  }
-
-  editProfile({ name, description }) {
+  editProfile(data) {
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        name: name,
-        about: description,
+        name: data.name,
+        about: data.about,
       }),
     }).then(this._handleResponse);
+  }
+
+  getAppInfo() {
+    return Promise.all([this.getUserInfo(), this.getInitialCards()]);
   }
 
   editCard({ name, link }) {
