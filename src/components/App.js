@@ -6,6 +6,7 @@ import PopupWithForm from "./PopupWithForm.jsx";
 import ImagePopup from "./ImagePopup.jsx";
 import CurrentUserContext from "../contexts/CurrentUserContext.js";
 import EditProfilePopup from "./EditProfilePopup.jsx";
+import EditAvatarPopup from "./EditAvatarPopup.jsx";
 import { api } from "../utils/api.js";
 
 function App() {
@@ -57,6 +58,16 @@ function App() {
       .catch(console.error);
   }
 
+  function handleUpdateAvatar(link) {
+    api
+      .changeAvatar(link)
+      .then((res) => {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch(console.error);
+  }
+
   function handleCardClick(card) {
     setSelectedCard(card);
     setIsImagePopupOpen(true);
@@ -100,6 +111,11 @@ function App() {
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
         />
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+        />
         <PopupWithForm
           isOpen={isAddPlacePopupOpen}
           title="Новое место"
@@ -129,27 +145,6 @@ function App() {
                 required
               />
               <span id="error-profileLink" className="form__error"></span>
-            </>
-          }
-          onClose={closeAllPopups}
-        />
-        <PopupWithForm
-          isOpen={isEditAvatarPopupOpen}
-          title="Обновить аватар"
-          name="update-avatar"
-          buttonText="Создать"
-          children={
-            <>
-              <input
-                type="URL"
-                placeholder="Ссылка на картинку"
-                className="form__input form__input_type_update-avatar"
-                name="AvatarLink"
-                id="AvatarLink"
-                minLength="2"
-                required
-              />
-              <span id="error-AvatarLink" className="form__error"></span>
             </>
           }
           onClose={closeAllPopups}

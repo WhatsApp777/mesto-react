@@ -29,6 +29,16 @@ class Api {
     }).then(this._handleResponse);
   }
 
+  changeAvatar(url) {
+    return fetch(`${this._url}/users/me/avatar`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({
+        avatar: url,
+      }),
+    }).then(this._handleResponse);
+  }
+
   getAppInfo() {
     return Promise.all([this.getUserInfo(), this.getInitialCards()]);
   }

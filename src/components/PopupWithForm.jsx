@@ -1,5 +1,4 @@
 import React from "react";
-import EditProfilePopup from "./EditProfilePopup";
 
 function PopupWithForm(props) {
   const { name, title, isOpen, onClose, buttonText, children, onSubmit } =
