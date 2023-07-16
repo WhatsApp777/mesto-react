@@ -8,6 +8,7 @@ import CurrentUserContext from "../contexts/CurrentUserContext.js";
 import EditProfilePopup from "./EditProfilePopup.jsx";
 import EditAvatarPopup from "./EditAvatarPopup.jsx";
 import { api } from "../utils/api.js";
+import AddPlacePopup from "./AddPlacePopup.jsx";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -58,11 +59,21 @@ function App() {
       .catch(console.error);
   }
 
-  function handleUpdateAvatar(link) {
+  function handleUpdateAvatar(url) {
     api
-      .changeAvatar(link)
+      .changeAvatar(url)
       .then((res) => {
         setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch(console.error);
+  }
+
+  function handleAddPlaceSubmit(data) {
+    api
+      .editCard(data)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
         closeAllPopups();
       })
       .catch(console.error);
@@ -98,12 +109,12 @@ function App() {
         <Header />
         <Main
           cards={cards}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
           onEditAvatar={handleEditAvatarClick}
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
           onCardClick={handleCardClick}
-          onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
         />
         <Footer />
         <EditProfilePopup
@@ -116,38 +127,10 @@ function App() {
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
         />
-        <PopupWithForm
+        <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
-          title="Новое место"
-          name="cards"
-          buttonText="Создать"
-          children={
-            <>
-              <input
-                type="text"
-                placeholder="Название"
-                className="form__input form__input_type_title"
-                name="profileTitle"
-                id="profileTitle"
-                minLength="2"
-                maxLength="30"
-                required
-                autoComplete="off"
-              />
-              <span id="error-profileTitle" className="form__error"></span>
-              <input
-                type="URL"
-                placeholder="Ссылка на картинку"
-                className="form__input form__input_type_link"
-                name="profileLink"
-                id="profileLink"
-                minLength="2"
-                required
-              />
-              <span id="error-profileLink" className="form__error"></span>
-            </>
-          }
           onClose={closeAllPopups}
+          onAddPlace={handleAddPlaceSubmit}
         />
         <PopupWithForm
           title="Вы уверены?"

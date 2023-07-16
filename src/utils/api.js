@@ -43,13 +43,13 @@ class Api {
     return Promise.all([this.getUserInfo(), this.getInitialCards()]);
   }
 
-  editCard({ name, link }) {
+  editCard(data) {
     return fetch(`${this._url}/cards`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({
-        name: name,
-        link: link,
+        name: data.name,
+        link: data.link,
       }),
     }).then(this._handleResponse);
   }
