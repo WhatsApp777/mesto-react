@@ -19,7 +19,9 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState({});
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
   const [cards, setCards] = React.useState([]);
-  const [currentUser, setCurrentUser] = React.useState([]);
+  const [currentUser, setCurrentUser] = React.useState({});
+  const [isLoading, setIsLoading] = React.useState(false);
+  const buttonSubmitText = isLoading ? "Сохранение..." : "Сохранить";
 
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -50,11 +52,15 @@ function App() {
   }
 
   function handleUpdateUser(data) {
+    setIsLoading(true);
     api
       .editProfile(data)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
+      })
+      .finally(() => {
+        setIsLoading(false);
       })
       .catch(console.error);
   }
@@ -70,11 +76,15 @@ function App() {
   }
 
   function handleAddPlaceSubmit(data) {
+    setIsLoading(true);
     api
       .editCard(data)
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups();
+      })
+      .finally(() => {
+        setIsLoading(false);
       })
       .catch(console.error);
   }
@@ -121,6 +131,7 @@ function App() {
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
+          buttonText={buttonSubmitText}
         />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
@@ -131,6 +142,7 @@ function App() {
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
+          buttonText={buttonSubmitText}
         />
         <PopupWithForm
           title="Вы уверены?"

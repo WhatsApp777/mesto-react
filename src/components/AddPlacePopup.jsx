@@ -2,7 +2,7 @@ import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup(props) {
-  const { isOpen, onClose, onAddPlace } = props;
+  const { isOpen, onClose, onAddPlace, buttonText } = props;
 
   const [name, setName] = React.useState("");
   const [link, setLink] = React.useState("");
@@ -31,7 +31,7 @@ function AddPlacePopup(props) {
       onSubmit={handleSubmit}
       title="Новое место"
       name="cards"
-      buttonText="Создать"
+      buttonText={buttonText}
       children={
         <>
           <input
@@ -47,7 +47,7 @@ function AddPlacePopup(props) {
             onChange={handleChangeNameAdd}
             value={name}
           />
-          <span id="error-profileTitle" className="form__error"></span>
+          <span id="error-profileTitle" className="form__error" />
           <input
             type="URL"
             placeholder="Ссылка на картинку"
@@ -59,7 +59,7 @@ function AddPlacePopup(props) {
             onChange={handleChangeLinkAdd}
             value={link}
           />
-          <span id="error-profileLink" className="form__error"></span>
+          <span id="error-profileLink" className="form__error" />
         </>
       }
     />
