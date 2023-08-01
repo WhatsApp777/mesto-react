@@ -1,4 +1,5 @@
 import React from "react";
+import { Routes, Route } from "react-router-dom";
 import Header from "./Header.jsx";
 import Main from "./Main.jsx";
 import Footer from "./Footer.jsx";
@@ -7,6 +8,10 @@ import ImagePopup from "./ImagePopup.jsx";
 import CurrentUserContext from "../contexts/CurrentUserContext.js";
 import EditProfilePopup from "./EditProfilePopup.jsx";
 import EditAvatarPopup from "./EditAvatarPopup.jsx";
+import ProtectedRoute from "./ProtectedRoute.jsx";
+import InfoTooltip from "./InfoTooltip.jsx";
+import Login from "./Login.jsx";
+import Register from "./Register.jsx";
 import { api } from "../utils/api.js";
 import AddPlacePopup from "./AddPlacePopup.jsx";
 
@@ -21,7 +26,13 @@ function App() {
   const [cards, setCards] = React.useState([]);
   const [currentUser, setCurrentUser] = React.useState({});
   const [isLoading, setIsLoading] = React.useState(false);
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [email, setEmail] = React.useState();
   const buttonSubmitText = isLoading ? "Сохранение..." : "Сохранить";
+
+  function handleLogin() {
+    setLoggedIn(true);
+  }
 
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -116,17 +127,35 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header />
-        <Main
-          cards={cards}
-          onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
-          onEditAvatar={handleEditAvatarClick}
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onCardClick={handleCardClick}
-        />
+        <Header loggedIn={loggedIn} email={email} />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute
+                loggedIn={loggedIn}
+                element={Main}
+                cards={cards}
+                onCardLike={handleCardLike}
+                onCardDelete={handleCardDelete}
+                onEditAvatar={handleEditAvatarClick}
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onCardClick={handleCardClick}
+              />
+            }
+          />
+          <Route path="/sign-up" element={<Login />} />
+          <Route path="/sign-in" element={<Register />} />
+        </Routes>
         <Footer />
+        <InfoTooltip
+        /*         isOpen={}
+        onClose={}
+        name="infotooltip"
+        title="Вы успешно зарегистрировались"
+        buttonText={} */
+        />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}

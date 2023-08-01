@@ -33,6 +33,8 @@
 @import url(./blocks/popup/_type/popup_type_profile.css);
 @import url(./blocks/popup/_type/popup_type_update-avatar.css);
 @import url(./blocks/popup/_type/popup_type_delete-card.css);
+
+@import url(./blocks/popup/_type/popup_type_infotooltip.css);
 @import url(./blocks/popup/__delete-card-container/popup__delete-card-container.css);
 @import url(./blocks/popup/_opened/popup_opened.css);
 @import url(./blocks/popup/__close-button/popup__close-button.css);
@@ -41,6 +43,8 @@
 @import url(./blocks/popup/__close-button/_type/popup__close-button_type_image.css);
 @import url(./blocks/popup/__close-button/_type/popup__close-button_type_update-avatar.css);
 @import url(./blocks/popup/__close-button/_type/popup__close-button_type_delete-card.css);
+
+@import url(./blocks/popup/__close-button/_type/popup__close-button_type_infotooltip.css);
 @import url(./blocks/popup/__cards-container/popup__cards-container.css);
 @import url(./blocks/popup/__image-container/popup__image-container.css);
 @import url(./blocks/popup/__update-avatar-container/popup__update-avatar-container.css);
@@ -62,6 +66,8 @@
 @import url(./blocks/form/__submit/_type/form__submit_type_update-avatar.css);
 @import url(./blocks/form/__title/_type/form__title_type_cards.css);
 @import url(./blocks/form/__title/_type/form__title_type_delete.css);
+
+@import url(./blocks/form/__title/_type/form__title_type_infotooltip.css);
 @import url(./blocks/form/__title/_type/form__title_type_profile.css);
 @import url(./blocks/form/__title/_type/form__title_type_update-avatar.css);
 @import url(./blocks/form/__input/form__input.css);
