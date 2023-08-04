@@ -1,13 +1,32 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Register(props) {
-  //const { handleLogin } = props;
+  const { onRegister } = props;
+
+  const [formRegisterValue, setFormRegisterValue] = React.useState({
+    email: "",
+    password: "",
+  });
+
+  function handleChangeRegister(e) {
+    const { name, value } = e.target;
+    setFormRegisterValue({
+      ...formRegisterValue,
+      [name]: value,
+    });
+  }
+
+  function handleSubmitRegister(e) {
+    e.preventDefault();
+    onRegister(formRegisterValue.email, formRegisterValue.password);
+    setFormRegisterValue({});
+  }
 
   return (
     <div className="login">
       <p className="login__title">Регистрация</p>
-      <form className="login__form">
+      <form onSubmit={handleSubmitRegister} className="login__form">
         <input
           type="email"
           className="login__input login__input_type_email"
@@ -16,6 +35,9 @@ function Register(props) {
           id="LoginEmail"
           minLength="2"
           required
+          onChange={handleChangeRegister}
+          value={formRegisterValue.email}
+          autocomplete="off"
         />
         <input
           type="password"
@@ -25,15 +47,17 @@ function Register(props) {
           id="LoginPassword"
           minLength="2"
           required
+          onChange={handleChangeRegister}
+          value={formRegisterValue.password}
+          autocomplete="off"
         />
-        <button type="button" className="login__button-submit">
+        <button type="submit" className="login__button-submit">
           Зарегистрироваться
         </button>
         <div className="">
-          <p className="">Уже зарегистрированы</p>
-          <button type="button" className="">
-            Войти
-          </button>
+          <Link to="/sign-in" className="">
+            Уже зарегистрированы? Войти
+          </Link>
         </div>
       </form>
     </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Header from "./Header.jsx";
 import Main from "./Main.jsx";
 import Footer from "./Footer.jsx";
@@ -13,6 +13,7 @@ import InfoTooltip from "./InfoTooltip.jsx";
 import Login from "./Login.jsx";
 import Register from "./Register.jsx";
 import { api } from "../utils/api.js";
+import { auth } from "../utils/auth.js";
 import AddPlacePopup from "./AddPlacePopup.jsx";
 
 function App() {
@@ -26,17 +27,52 @@ function App() {
   const [cards, setCards] = React.useState([]);
   const [currentUser, setCurrentUser] = React.useState({});
   const [isLoading, setIsLoading] = React.useState(false);
-  const [loggedIn, setLoggedIn] = React.useState(false);
-  const [email, setEmail] = React.useState();
-  const buttonSubmitText = isLoading ? "Сохранение..." : "Сохранить";
 
-  function handleLogin() {
-    setLoggedIn(true);
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [email, setEmail] = React.useState(false);
+  const [infoTooltipPopupOpen, setInfoTooltipPopupOpen] = React.useState(false);
+  const [isRegistrate, setIsRegistrate] = React.useState(false);
+
+  const buttonSubmitText = isLoading ? "Сохранение..." : "Сохранить";
+  const navigate = useNavigate();
+
+  function handleLogin(email, password) {
+    auth
+      .authorization(email, password)
+      .then((res) => {
+        setIsRegistrate(false);
+        setEmail(res.email);
+        localStorage.setItem("token", res.token);
+        setLoggedIn(true);
+        navigate("/", { replace: true });
+      })
+      .catch(() => {
+        setIsRegistrate(false);
+        setLoggedIn(false);
+        setInfoTooltipPopupOpen(true);
+      });
+  }
+
+  function handleRegister(email, password) {
+    auth
+      .registration(email, password)
+      .then(() => {
+        setIsRegistrate(true);
+        setInfoTooltipPopupOpen(true);
+      })
+      .catch(() => {
+        setIsRegistrate(true);
+        setInfoTooltipPopupOpen(false);
+      });
+  }
+
+  function handleLogOut() {
+    setLoggedIn(false);
+    localStorage.removeItem("jwt");
   }
 
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
-
       .then(([user, card]) => {
         setCurrentUser(user);
         setCards(card);
@@ -122,39 +158,44 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsImagePopupOpen(false);
+    setInfoTooltipPopupOpen(false);
   }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header loggedIn={loggedIn} email={email} />
+        <Header loggedIn={loggedIn} handleLogOut={handleLogOut} email={email} />
         <Routes>
+          <Route path="/sign-in" element={<Login onLogin={handleLogin} />} />
+          <Route
+            path="/sign-up"
+            element={<Register onRegister={handleRegister} />}
+          />
           <Route
             path="/"
             element={
-              <ProtectedRoute
-                loggedIn={loggedIn}
-                element={Main}
-                cards={cards}
-                onCardLike={handleCardLike}
-                onCardDelete={handleCardDelete}
-                onEditAvatar={handleEditAvatarClick}
-                onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
-                onCardClick={handleCardClick}
-              />
+              <ProtectedRoute loggedIn={loggedIn}>
+                <Main
+                  cards={cards}
+                  onCardLike={handleCardLike}
+                  onCardDelete={handleCardDelete}
+                  onEditAvatar={handleEditAvatarClick}
+                  onEditProfile={handleEditProfileClick}
+                  onAddPlace={handleAddPlaceClick}
+                  onCardClick={handleCardClick}
+                />
+              </ProtectedRoute>
             }
           />
-          <Route path="/sign-up" element={<Login />} />
-          <Route path="/sign-in" element={<Register />} />
+          <Route path="*" element={<h2>Not found</h2>} />
         </Routes>
+
         <Footer />
         <InfoTooltip
-        /*         isOpen={}
-        onClose={}
-        name="infotooltip"
-        title="Вы успешно зарегистрировались"
-        buttonText={} */
+          isOpen={infoTooltipPopupOpen}
+          onClose={closeAllPopups}
+          isRegistrate={isRegistrate}
+          name="infotooltip"
         />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}

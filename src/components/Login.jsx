@@ -1,15 +1,33 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
 
 function Login(props) {
-  const { handleLogin, handleSubmit, handleChange } = props;
+  const { onLogin } = props;
+
+  const [formLoginValue, setFormLoginValue] = React.useState({
+    username: "",
+    password: "",
+  });
+
+  function handleChangeLogin(e) {
+    const { name, value } = e.target;
+    setFormLoginValue({
+      ...formLoginValue,
+      [name]: value,
+    });
+  }
+
+  function handleSubmitLogin(e) {
+    e.preventDefault();
+    onLogin(formLoginValue.username, formLoginValue.password);
+    setFormLoginValue({});
+  }
 
   return (
     <div className="login">
       <p className="login__title">Вход</p>
-      <form className="login__form" onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmitLogin} className="login__form">
         <input
-          onChange={handleChange}
+          onChange={handleChangeLogin}
           type="email"
           className="login__input login__input_type_email"
           placeholder="Email"
@@ -17,9 +35,11 @@ function Login(props) {
           id="LoginEmail"
           minLength="2"
           required
+          value={formLoginValue.username}
+          autocomplete="off"
         />
         <input
-          onChange={handleChange}
+          onChange={handleChangeLogin}
           type="password"
           className="login__input login__input_type_email"
           placeholder="Пароль"
@@ -27,8 +47,10 @@ function Login(props) {
           id="LoginPassword"
           minLength="2"
           required
+          value={formLoginValue.password}
+          autocomplete="off"
         />
-        <button type="button" className="login__button-submit">
+        <button type="submit" className="login__button-submit">
           Войти
         </button>
       </form>
