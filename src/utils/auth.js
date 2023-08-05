@@ -4,24 +4,24 @@ class Auth {
     this._headers = options.headers;
   }
 
-  authorization(data) {
+  authorization(username, password) {
     return fetch(`${this._url}/signup`, {
       metod: "POST",
       headers: this._headers,
       body: JSON.stringify({
-        email: data.email,
-        password: data.password,
+        username: username,
+        password: password,
       }),
     }).then(this._handleResponseAuth);
   }
 
-  registration(data) {
+  registration(email, password) {
     return fetch(`${this._url}/signin`, {
       metod: "POST",
       headers: this._headers,
       body: JSON.stringify({
-        email: data.email,
-        password: data.password,
+        email: email,
+        password: password,
       }),
     }).then(this._handleResponseAuth);
   }
@@ -48,55 +48,9 @@ class Auth {
 const auth = new Auth({
   url: "https://auth.nomoreparties.co",
   headers: {
+    //Accept: "application/json",
     "Content-type": "application/json",
   },
 });
 
 export { auth };
-
-/* function authorization(email, password) {
-  fetch(`https://auth.nomoreparties.co/signup`, {
-    metod: "POST",
-    headers: {
-      "Content-type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  })
-    .then((res) => res.json())
-    .then((item) => {
-      if (item) {
-        localStorage.setItem("jwt", item.token);
-        return item;
-      } else {
-        return;
-      }
-    })
-    .catch(console.error);
-}
-
-function registration(email, password) {
-  fetch(`https://auth.nomoreparties.co/signin`, {
-    metod: "POST",
-    headers: {
-      "Content-type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  })
-    .then((res) => res.json())
-    .catch(console.error);
-}
-
-function getInformation(token) {
-  fetch(`https://auth.nomoreparties.co/users/me`, {
-    metod: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then((res) => res.json())
-    .catch(console.error);
-}
-
-export { authorization, registration, getInformation };
- */

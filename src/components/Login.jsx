@@ -18,6 +18,7 @@ function Login(props) {
 
   function handleSubmitLogin(e) {
     e.preventDefault();
+
     onLogin(formLoginValue.username, formLoginValue.password);
     setFormLoginValue({});
   }
@@ -35,8 +36,8 @@ function Login(props) {
           id="LoginEmail"
           minLength="2"
           required
-          value={formLoginValue.username}
-          autocomplete="off"
+          //value={formLoginValue.username}
+          autoComplete="off"
         />
         <input
           onChange={handleChangeLogin}
@@ -47,10 +48,14 @@ function Login(props) {
           id="LoginPassword"
           minLength="2"
           required
-          value={formLoginValue.password}
-          autocomplete="off"
+          //value={formLoginValue.password}
+          autoComplete="off"
         />
-        <button type="submit" className="login__button-submit">
+        <button
+          onClick={handleSubmitLogin}
+          type="submit"
+          className="login__button-submit"
+        >
           Войти
         </button>
       </form>

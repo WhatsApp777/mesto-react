@@ -14,7 +14,7 @@ function Header(props) {
           <Route
             path="/sign-in"
             element={
-              <Link to="sign-up" className="">
+              <Link to="/sign-up" className="">
                 Регистрация
               </Link>
             }
@@ -32,7 +32,7 @@ function Header(props) {
             element={
               <ProtectedRoute loggedIn={loggedIn}>
                 <div className="">
-                  {email && <p className="">{email}</p>}
+                  {loggedIn && <p className="">{email}</p>}
                   <Link to="sign-in" className="" onClick={handleLogOut}>
                     Выйти
                   </Link>

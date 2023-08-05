@@ -19,6 +19,7 @@ function Register(props) {
 
   function handleSubmitRegister(e) {
     e.preventDefault();
+
     onRegister(formRegisterValue.email, formRegisterValue.password);
     setFormRegisterValue({});
   }
@@ -36,8 +37,8 @@ function Register(props) {
           minLength="2"
           required
           onChange={handleChangeRegister}
-          value={formRegisterValue.email}
-          autocomplete="off"
+          //value={formRegisterValue.email}
+          autoComplete="off"
         />
         <input
           type="password"
@@ -48,10 +49,14 @@ function Register(props) {
           minLength="2"
           required
           onChange={handleChangeRegister}
-          value={formRegisterValue.password}
-          autocomplete="off"
+          //value={formRegisterValue.password}
+          autoComplete="off"
         />
-        <button type="submit" className="login__button-submit">
+        <button
+          onClick={handleSubmitRegister}
+          type="submit"
+          className="login__button-submit"
+        >
           Зарегистрироваться
         </button>
         <div className="">

@@ -1,5 +1,5 @@
-import React from "react";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Header from "./Header.jsx";
 import Main from "./Main.jsx";
 import Footer from "./Footer.jsx";
@@ -29,20 +29,20 @@ function App() {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const [loggedIn, setLoggedIn] = React.useState(false);
-  const [email, setEmail] = React.useState(false);
+  const [userEmail, setUserEmail] = React.useState();
   const [infoTooltipPopupOpen, setInfoTooltipPopupOpen] = React.useState(false);
   const [isRegistrate, setIsRegistrate] = React.useState(false);
 
   const buttonSubmitText = isLoading ? "Сохранение..." : "Сохранить";
   const navigate = useNavigate();
 
-  function handleLogin(email, password) {
+  function handleLogin(username, password) {
     auth
-      .authorization(email, password)
+      .authorization(username, password)
       .then((res) => {
         setIsRegistrate(false);
-        setEmail(res.email);
-        localStorage.setItem("token", res.token);
+        setUserEmail(res.email);
+        localStorage.setItem("jwt", res.token);
         setLoggedIn(true);
         navigate("/", { replace: true });
       })
@@ -52,6 +52,8 @@ function App() {
         setInfoTooltipPopupOpen(true);
       });
   }
+
+  console.log(handleLogin);
 
   function handleRegister(email, password) {
     auth
@@ -66,9 +68,32 @@ function App() {
       });
   }
 
+  function checkToken() {
+    if (localStorage.getItem("jwt")) {
+      const token = localStorage.getItem("jwt");
+      auth
+        .getInformation(token)
+        .then((res) => {
+          if (res && res.data) {
+            setLoggedIn(true);
+            setUserEmail(res.data.email);
+            navigate("/");
+          }
+        })
+        .catch(console.error);
+    } else {
+      setLoggedIn(false);
+    }
+  }
+
+  React.useEffect(() => {
+    checkToken();
+  }, []);
+
   function handleLogOut() {
     setLoggedIn(false);
     localStorage.removeItem("jwt");
+    navigate("/sign-in");
   }
 
   React.useEffect(() => {
@@ -164,7 +189,11 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header loggedIn={loggedIn} handleLogOut={handleLogOut} email={email} />
+        <Header
+          loggedIn={loggedIn}
+          handleLogOut={handleLogOut}
+          email={userEmail}
+        />
         <Routes>
           <Route path="/sign-in" element={<Login onLogin={handleLogin} />} />
           <Route
@@ -174,22 +203,22 @@ function App() {
           <Route
             path="/"
             element={
-              <ProtectedRoute loggedIn={loggedIn}>
-                <Main
-                  cards={cards}
-                  onCardLike={handleCardLike}
-                  onCardDelete={handleCardDelete}
-                  onEditAvatar={handleEditAvatarClick}
-                  onEditProfile={handleEditProfileClick}
-                  onAddPlace={handleAddPlaceClick}
-                  onCardClick={handleCardClick}
-                />
-              </ProtectedRoute>
+              <ProtectedRoute
+                path="/"
+                loggedIn={loggedIn}
+                component={Main}
+                cards={cards}
+                onCardLike={handleCardLike}
+                onCardDelete={handleCardDelete}
+                onEditAvatar={handleEditAvatarClick}
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onCardClick={handleCardClick}
+              ></ProtectedRoute>
             }
           />
           <Route path="*" element={<h2>Not found</h2>} />
         </Routes>
-
         <Footer />
         <InfoTooltip
           isOpen={infoTooltipPopupOpen}
