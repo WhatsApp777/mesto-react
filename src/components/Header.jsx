@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, Routes, Route } from "react-router-dom";
+import Main from "./Main";
 import logo from "../images/logo.svg";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -30,14 +31,16 @@ function Header(props) {
           <Route
             path="/"
             element={
-              <ProtectedRoute loggedIn={loggedIn}>
-                <div className="">
-                  {loggedIn && <p className="">{email}</p>}
-                  <Link to="sign-in" className="" onClick={handleLogOut}>
-                    Выйти
-                  </Link>
-                </div>
-              </ProtectedRoute>
+              <div className="header__userdata">
+                {<p className="header__userdata_email">{email}</p>}
+                <Link
+                  to="sign-in"
+                  className="header__userdata_title"
+                  onClick={handleLogOut}
+                >
+                  Выйти
+                </Link>
+              </div>
             }
           />
         </Routes>

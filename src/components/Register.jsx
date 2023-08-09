@@ -4,24 +4,12 @@ import { Link } from "react-router-dom";
 function Register(props) {
   const { onRegister } = props;
 
-  const [formRegisterValue, setFormRegisterValue] = React.useState({
-    email: "",
-    password: "",
-  });
-
-  function handleChangeRegister(e) {
-    const { name, value } = e.target;
-    setFormRegisterValue({
-      ...formRegisterValue,
-      [name]: value,
-    });
-  }
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
 
   function handleSubmitRegister(e) {
     e.preventDefault();
-
-    onRegister(formRegisterValue.email, formRegisterValue.password);
-    setFormRegisterValue({});
+    onRegister(email, password);
   }
 
   return (
@@ -32,31 +20,23 @@ function Register(props) {
           type="email"
           className="login__input login__input_type_email"
           placeholder="Email"
-          name="LoginEmail"
           id="LoginEmail"
           minLength="2"
           required
-          onChange={handleChangeRegister}
-          //value={formRegisterValue.email}
-          autoComplete="off"
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
         />
         <input
           type="password"
           className="login__input login__input_type_email"
           placeholder="Пароль"
-          name="LoginPassword"
           id="LoginPassword"
           minLength="2"
           required
-          onChange={handleChangeRegister}
-          //value={formRegisterValue.password}
-          autoComplete="off"
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
         />
-        <button
-          onClick={handleSubmitRegister}
-          type="submit"
-          className="login__button-submit"
-        >
+        <button type="submit" className="login__button-submit">
           Зарегистрироваться
         </button>
         <div className="">

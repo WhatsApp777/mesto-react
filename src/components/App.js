@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Header from "./Header.jsx";
 import Main from "./Main.jsx";
@@ -46,14 +46,13 @@ function App() {
         setLoggedIn(true);
         navigate("/", { replace: true });
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         setIsRegistrate(false);
         setLoggedIn(false);
         setInfoTooltipPopupOpen(true);
       });
   }
-
-  console.log(handleLogin);
 
   function handleRegister(email, password) {
     auth
@@ -62,8 +61,9 @@ function App() {
         setIsRegistrate(true);
         setInfoTooltipPopupOpen(true);
       })
-      .catch(() => {
-        setIsRegistrate(true);
+      .catch((err) => {
+        console.log(err);
+        setIsRegistrate(false);
         setInfoTooltipPopupOpen(false);
       });
   }
@@ -77,7 +77,7 @@ function App() {
           if (res && res.data) {
             setLoggedIn(true);
             setUserEmail(res.data.email);
-            navigate("/");
+            navigate("/", { replace: true });
           }
         })
         .catch(console.error);
@@ -204,9 +204,8 @@ function App() {
             path="/"
             element={
               <ProtectedRoute
-                path="/"
-                loggedIn={loggedIn}
                 component={Main}
+                loggedIn={loggedIn}
                 cards={cards}
                 onCardLike={handleCardLike}
                 onCardDelete={handleCardDelete}

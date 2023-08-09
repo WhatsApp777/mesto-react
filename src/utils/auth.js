@@ -5,19 +5,19 @@ class Auth {
   }
 
   authorization(username, password) {
-    return fetch(`${this._url}/signup`, {
-      metod: "POST",
+    return fetch(`${this._url}/signin`, {
+      method: "POST",
       headers: this._headers,
       body: JSON.stringify({
-        username: username,
+        email: username,
         password: password,
       }),
     }).then(this._handleResponseAuth);
   }
 
   registration(email, password) {
-    return fetch(`${this._url}/signin`, {
-      metod: "POST",
+    return fetch(`${this._url}/signup`, {
+      method: "POST",
       headers: this._headers,
       body: JSON.stringify({
         email: email,

@@ -3,24 +3,12 @@ import React from "react";
 function Login(props) {
   const { onLogin } = props;
 
-  const [formLoginValue, setFormLoginValue] = React.useState({
-    username: "",
-    password: "",
-  });
-
-  function handleChangeLogin(e) {
-    const { name, value } = e.target;
-    setFormLoginValue({
-      ...formLoginValue,
-      [name]: value,
-    });
-  }
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
 
   function handleSubmitLogin(e) {
     e.preventDefault();
-
-    onLogin(formLoginValue.username, formLoginValue.password);
-    setFormLoginValue({});
+    onLogin(username, password);
   }
 
   return (
@@ -28,27 +16,27 @@ function Login(props) {
       <p className="login__title">Вход</p>
       <form onSubmit={handleSubmitLogin} className="login__form">
         <input
-          onChange={handleChangeLogin}
           type="email"
           className="login__input login__input_type_email"
           placeholder="Email"
-          name="LoginEmail"
+          name="username"
           id="LoginEmail"
           minLength="2"
           required
-          //value={formLoginValue.username}
+          onChange={(e) => setUsername(e.target.value)}
+          value={username}
           autoComplete="off"
         />
         <input
-          onChange={handleChangeLogin}
           type="password"
           className="login__input login__input_type_email"
           placeholder="Пароль"
-          name="LoginPassword"
+          name="password"
           id="LoginPassword"
           minLength="2"
           required
-          //value={formLoginValue.password}
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
           autoComplete="off"
         />
         <button
