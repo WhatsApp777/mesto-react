@@ -1,5 +1,6 @@
 import React from "react";
 import Card from "./Card.jsx";
+import Footer from "./Footer.jsx";
 import CurrentUserContext from "../contexts/CurrentUserContext.js";
 
 function Main(props) {
@@ -59,6 +60,7 @@ function Main(props) {
           />
         ))}
       </section>
+      <Footer />
     </main>
   );
 }

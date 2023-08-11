@@ -12,42 +12,36 @@ function Login(props) {
   }
 
   return (
-    <div className="login">
-      <p className="login__title">Вход</p>
-      <form onSubmit={handleSubmitLogin} className="login__form">
+    <section className="auth">
+      <p className="auth__title">Вход</p>
+      <form onSubmit={handleSubmitLogin} className="form form_type_auth">
         <input
           type="email"
-          className="login__input login__input_type_email"
+          className="form__input form__input_type_username"
           placeholder="Email"
-          name="username"
           id="LoginEmail"
           minLength="2"
           required
           onChange={(e) => setUsername(e.target.value)}
           value={username}
-          autoComplete="off"
+          autoComplete="new-password"
         />
         <input
           type="password"
-          className="login__input login__input_type_email"
+          className="form__input form__input_type_password"
           placeholder="Пароль"
-          name="password"
           id="LoginPassword"
           minLength="2"
           required
           onChange={(e) => setPassword(e.target.value)}
           value={password}
-          autoComplete="off"
+          autoComplete="new-password"
         />
-        <button
-          onClick={handleSubmitLogin}
-          type="submit"
-          className="login__button-submit"
-        >
+        <button type="submit" className="form__submit form__submit_type_auth">
           Войти
         </button>
       </form>
-    </div>
+    </section>
   );
 }
 

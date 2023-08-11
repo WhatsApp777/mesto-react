@@ -1,11 +1,9 @@
 import React from "react";
 import { Link, Routes, Route } from "react-router-dom";
-import Main from "./Main";
 import logo from "../images/logo.svg";
-import ProtectedRoute from "./ProtectedRoute";
 
 function Header(props) {
-  const { loggedIn, email, handleLogOut } = props;
+  const { email, handleLogOut } = props;
 
   return (
     <header className="header">
@@ -15,7 +13,10 @@ function Header(props) {
           <Route
             path="/sign-in"
             element={
-              <Link to="/sign-up" className="">
+              <Link
+                to="/sign-up"
+                className="header__authorization header__authorization_type_signin"
+              >
                 Регистрация
               </Link>
             }
@@ -23,7 +24,10 @@ function Header(props) {
           <Route
             path="/sign-up"
             element={
-              <Link to="/sign-in" className="">
+              <Link
+                to="/sign-in"
+                className="header__authorization header__authorization_type_signup"
+              >
                 Войти
               </Link>
             }
@@ -32,10 +36,10 @@ function Header(props) {
             path="/"
             element={
               <div className="header__userdata">
-                {<p className="header__userdata_email">{email}</p>}
+                <p className="header__userdata_email">{email}</p>
                 <Link
-                  to="sign-in"
-                  className="header__userdata_title"
+                  to="/sign-in"
+                  className="header__authorization header__authorization_type_main"
                   onClick={handleLogOut}
                 >
                   Выйти

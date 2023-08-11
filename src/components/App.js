@@ -2,7 +2,6 @@ import React from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Header from "./Header.jsx";
 import Main from "./Main.jsx";
-import Footer from "./Footer.jsx";
 import PopupWithForm from "./PopupWithForm.jsx";
 import ImagePopup from "./ImagePopup.jsx";
 import CurrentUserContext from "../contexts/CurrentUserContext.js";
@@ -218,13 +217,7 @@ function App() {
           />
           <Route path="*" element={<h2>Not found</h2>} />
         </Routes>
-        <Footer />
-        <InfoTooltip
-          isOpen={infoTooltipPopupOpen}
-          onClose={closeAllPopups}
-          isRegistrate={isRegistrate}
-          name="infotooltip"
-        />
+
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
@@ -252,6 +245,13 @@ function App() {
           isOpen={isImagePopupOpen}
           card={selectedCard}
           onClose={closeAllPopups}
+        />
+
+        <InfoTooltip
+          isOpen={infoTooltipPopupOpen}
+          onClose={closeAllPopups}
+          isRegistrate={isRegistrate}
+          name="infotooltip"
         />
       </div>
     </CurrentUserContext.Provider>

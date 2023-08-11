@@ -13,34 +13,36 @@ function Register(props) {
   }
 
   return (
-    <div className="login">
-      <p className="login__title">Регистрация</p>
-      <form onSubmit={handleSubmitRegister} className="login__form">
+    <div className="auth">
+      <p className="auth__title">Регистрация</p>
+      <form onSubmit={handleSubmitRegister} className="form form_type_auth">
         <input
           type="email"
-          className="login__input login__input_type_email"
+          className="form__input form__input_type_username"
           placeholder="Email"
           id="LoginEmail"
           minLength="2"
           required
           onChange={(e) => setEmail(e.target.value)}
           value={email}
+          autoComplete="new-password"
         />
         <input
           type="password"
-          className="login__input login__input_type_email"
+          className="form__input form__input_type_password"
           placeholder="Пароль"
           id="LoginPassword"
           minLength="2"
           required
           onChange={(e) => setPassword(e.target.value)}
           value={password}
+          autoComplete="new-password"
         />
-        <button type="submit" className="login__button-submit">
+        <button type="submit" className="form__submit form__submit_type_auth">
           Зарегистрироваться
         </button>
         <div className="">
-          <Link to="/sign-in" className="">
+          <Link to="/sign-in" className="form__link">
             Уже зарегистрированы? Войти
           </Link>
         </div>
