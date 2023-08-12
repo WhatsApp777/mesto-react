@@ -215,7 +215,22 @@ function App() {
               ></ProtectedRoute>
             }
           />
-          <Route path="*" element={<h2>Not found</h2>} />
+          <Route
+            path="*"
+            element={
+              <ProtectedRoute
+                component={Main}
+                loggedIn={loggedIn}
+                cards={cards}
+                onCardLike={handleCardLike}
+                onCardDelete={handleCardDelete}
+                onEditAvatar={handleEditAvatarClick}
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onCardClick={handleCardClick}
+              ></ProtectedRoute>
+            }
+          />
         </Routes>
 
         <EditProfilePopup

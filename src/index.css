@@ -97,6 +97,9 @@
 
 @import url(./blocks/auth/auth.css);
 @import url(./blocks/auth/__title/auth__title.css);
+@import url(./blocks/auth/__notfound/auth__notfound.css);
+
+@import url(./blocks/infotooltip/__title/infotooltip__title.css);
 
 body {
   background-color: #000000;

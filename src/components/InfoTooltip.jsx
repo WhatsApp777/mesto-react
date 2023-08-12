@@ -15,12 +15,27 @@ function InfoTooltip(props) {
           onClick={onClose}
           type="button"
         />
-        <img srs={isRegistrate ? `${UnionV}` : `${UnionX}`} />
-        <h2 className={`form__title form__title_type_${name}`}>
-          {isRegistrate
-            ? "Вы успешно зарегистрировались"
-            : "Что-то пошло не так! Попробуйте еще раз."}
-        </h2>
+        <div className={`form__title form__title_type_${name}`}>
+          {isRegistrate ? (
+            <>
+              <img
+                className="infotooltip__unionv"
+                src={UnionV}
+                alt="не успешно"
+              />
+              <h3 className="infotooltip__title">
+                Вы успешно зарегистрировались!
+              </h3>
+            </>
+          ) : (
+            <>
+              <img className="infotooltip__unionx" src={UnionX} alt="успешно" />
+              <h3 className="infotooltip__title">
+                Что-то пошло не так! Попробуйте еще раз.
+              </h3>
+            </>
+          )}
+        </div>
       </div>
     </section>
   );
