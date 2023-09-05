@@ -39,6 +39,7 @@ function App() {
         auth.authorization(username, password)
             .then((res) => {
                 setIsRegistrate(false);
+                setUserEmail(username);
                 localStorage.setItem("jwt", res.token);
                 setLoggedIn(true);
                 navigate("/", { replace: true });
@@ -56,6 +57,7 @@ function App() {
             .then(() => {
                 setIsRegistrate(true);
                 setInfoTooltipPopupOpen(true);
+                navigate("/sign-in", { replace: true });
             })
             .catch((err) => {
                 console.log(err);
